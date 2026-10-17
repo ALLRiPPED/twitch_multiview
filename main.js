@@ -248,20 +248,9 @@ window.optimizeSize = () => {
 
 window.startViewer = () => {
     const value = channelInput.value.trim();
-    const hideChatCheckbox = document.getElementById('hide-chat-checkbox');
-    const hideVideoCheckbox = document.getElementById('hide-video-checkbox');
-    const toggleMuteCheckbox = document.getElementById('toggle-mute-checkbox-setup');
     if (value) {
-        const isHideChatChecked = !!(hideChatCheckbox && hideChatCheckbox.checked);
-        const isHideVideoChecked = !!(hideVideoCheckbox && hideVideoCheckbox.checked);
-        const isToggleMuteChecked = !!(toggleMuteCheckbox && toggleMuteCheckbox.checked);
         const formatted = [...new Set(value.split(/[\s,]+/).map(s => s.toLowerCase()).filter(Boolean))].join(',');
-        
-        let url = '?channel=' + formatted;
-        if (isHideChatChecked) url += '&hideChat=true';
-        if (isHideVideoChecked) url += '&hideVideo=true';
-        if (isToggleMuteChecked) url += '&toggleMute=true';
-        window.location.search = url;
+        window.location.search = '?channel=' + formatted;
     }
 };
 
@@ -278,20 +267,6 @@ if (channels.length === 0) {
             channelInput.focus();
         }
     }, 250);
-
-    // Pre-check the checkbox ONLY if explicitly requested via the URL
-    const checkbox = document.getElementById('hide-chat-checkbox');
-    if (checkbox) {
-        checkbox.checked = params.get('hideChat') === 'true';
-    }
-    const muteCheckbox = document.getElementById('toggle-mute-checkbox-setup');
-    if (muteCheckbox) {
-        muteCheckbox.checked = params.get('toggleMute') === 'true';
-    }
-    const hideVideoCheckbox = document.getElementById('hide-video-checkbox');
-    if (hideVideoCheckbox) {
-        hideVideoCheckbox.checked = isVideoHidden;
-    }
 
 } else {
     setVideoHidden(isVideoHidden);
